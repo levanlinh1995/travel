@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const http = axios.create({
+const axiosInstant = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL || 'http://localhost'
 })
 
-http.interceptors.request.use(function (config) {
+axiosInstant.interceptors.request.use(function (config) {
   let token = localStorage.getItem('token')
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
@@ -15,10 +15,10 @@ http.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
-http.interceptors.response.use(function (response) {
+axiosInstant.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   return Promise.reject(error)
 })
 
-export default http
+export default axiosInstant

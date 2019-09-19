@@ -1,31 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <v-app>
+      <app-header></app-header>
+      <!-- Sizes your content based upon application components -->
+      <v-content>
+        <router-view></router-view>
+      </v-content>
+      <app-footer></app-footer>
+    </v-app>
   </div>
 </template>
 
+<script>
+import AppHeader from './components/layouts/Header'
+import AppFooter from './components/layouts/Footer'
+
+export default {
+  components: {
+    AppHeader,
+    AppFooter
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
