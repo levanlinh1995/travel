@@ -21,8 +21,13 @@ axiosInstant.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   if (error.response.status === 401) {
-    store.commit('auth/clearUserInfo')
-    router.push({ name: 'login' })
+    if (!(error.response.data.error && error.response.data.error.type === 'login')) {
+      store.commit('auth/clearUserInfo')
+
+      if (router.currentRoute.name !== 'login') {
+        router.push({ name: 'login' })
+      }
+    }
   }
 
   return Promise.reject(error)

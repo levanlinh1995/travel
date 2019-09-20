@@ -115,7 +115,8 @@ export default {
           this.$router.push({ name: 'feeds' })
         })
         .catch(error => {
-          this.errors.push('Email or password is incorrect.');
+          this.errors.push('Email or password is incorrect.')
+          console.log(error)
         })
     }
   }
