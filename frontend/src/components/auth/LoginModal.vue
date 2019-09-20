@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialogStatus" max-width="500px">
         <v-tabs
-          v-model="tab"
+          v-model="tabStatus"
           class="elevation-2"
           grow
         >
@@ -19,7 +19,7 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="tab">
+        <v-tabs-items v-model="tabStatus">
           <v-tab-item
             :key="'login'"
             :value="'tab-login'"
@@ -28,6 +28,7 @@
               flat
               tile
             >
+              <v-card-title class="headline justify-center primary--text font-weight-medium">Login to Phượt</v-card-title>
               <v-card-text>
                 <v-container>
                   <v-form
@@ -37,6 +38,7 @@
                       label="Email"
                       required
                       outlined
+                      append-icon="fa-user"
                     ></v-text-field>
 
                     <v-text-field
@@ -45,6 +47,7 @@
                       type="password"
                       required
                       outlined
+                      append-icon="fa-lock"
                     ></v-text-field>
 
                     <div class="text-center">
@@ -53,7 +56,7 @@
                         color="primary"
                         type="submit"
                       >
-                        Submit
+                        Login
                       </v-btn>
                       <v-btn
                         @click="closeModal"
@@ -75,6 +78,7 @@
               flat
               tile
             >
+              <v-card-title class="headline justify-center primary--text font-weight-medium">Sign up a account</v-card-title>
               <v-card-text>
                 <v-container>
                   <v-form
@@ -103,6 +107,7 @@
                       label="Email"
                       required
                       outlined
+                      append-icon="fa-envelope"
                     ></v-text-field>
 
                     <v-text-field
@@ -111,6 +116,7 @@
                       type="password"
                       required
                       outlined
+                      append-icon="fa-lock"
                     ></v-text-field>
 
                     <v-text-field
@@ -119,6 +125,7 @@
                       type="password"
                       required
                       outlined
+                      append-icon="fa-lock"
                     ></v-text-field>
 
                     <div class="text-center">
@@ -127,7 +134,7 @@
                         color="primary"
                         type="submit"
                       >
-                        Submit
+                        Signup
                       </v-btn>
                       <v-btn
                         @click="closeModal"
@@ -151,7 +158,11 @@ export default {
     event: 'change'
   },
   props: {
-    dialog: Boolean
+    dialog: Boolean,
+    tab: {
+      type: String,
+      default: 'tab-login'
+    }
   },
   computed: {
     dialogStatus: {
@@ -161,11 +172,18 @@ export default {
       set: function (newValue) {
         this.$emit('change', newValue)
       }
+    },
+    tabStatus: {
+      get: function () {
+        return this.tab
+      },
+      set: function (newValue) {
+        this.$emit('update:tab', newValue)
+      }
     }
   },
   data () {
     return {
-      tab: 'tab-login',
       formData: {
         firstName: '',
         lastName: '',

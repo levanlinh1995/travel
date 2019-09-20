@@ -21,8 +21,9 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-          <v-btn v-if="!isAuthenticated" text @click="loginDialog = true">Login</v-btn>
-          <v-btn v-if="isAuthenticated" text>Logout</v-btn>
+          <v-btn v-if="!isAuthenticated" text @click="openLoginModal">Login</v-btn>
+          <v-btn v-if="!isAuthenticated" text @click="openSignupModal">Signup</v-btn>
+          <v-btn v-if="isAuthenticated" text @click="logout">Logout</v-btn>
         </v-toolbar-items>
       <!-- <v-btn icon>
         <v-icon>fa-bell</v-icon>
@@ -30,13 +31,13 @@
     </v-app-bar>
 
     <!-- login modal -->
-    <login-modal v-model="loginDialog" />
+    <login-modal v-model="loginModal.dialog" :tab.sync="loginModal.tab"/>
   </div>
 </template>
 
 <script>
 import LoginModal from '../auth/LoginModal'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -44,13 +45,36 @@ export default {
   },
   data () {
     return {
-      loginDialog: false
+      loginModal: {
+        dialog: false,
+        tab: 'tab-login'
+      }
     }
   },
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated'
     })
+  },
+  methods: {
+    ...mapActions({
+      logoutAction: 'auth/logout'
+    }),
+    openLoginModal () {
+      this.loginModal.dialog = true
+      this.loginModal.tab = 'tab-login'
+    },
+    openSignupModal () {
+      this.loginModal.dialog = true
+      this.loginModal.tab = 'tab-signup'
+    },
+    logout () {
+      this.logoutAction()
+        .then(res => {
+          this.$router.push({ name: 'login' })
+        })
+        .catch(error => console.log(error))
+    }
   }
 }
 </script>

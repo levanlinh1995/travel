@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../store/index'
+import router from '../router/index'
 
 const axiosInstant = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL || 'http://localhost'
@@ -19,6 +20,11 @@ axiosInstant.interceptors.request.use(function (config) {
 axiosInstant.interceptors.response.use(function (response) {
   return response
 }, function (error) {
+  if (error.response.status === 401) {
+    store.commit('auth/clearUserInfo')
+    router.push({ name: 'login' })
+  }
+
   return Promise.reject(error)
 })
 

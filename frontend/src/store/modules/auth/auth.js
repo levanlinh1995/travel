@@ -18,8 +18,11 @@ const getters = {
 }
 
 const mutations = {
-  storeUser (state, payload) {
+  storeUserInfo (state, payload) {
     state.token = payload.token
+  },
+  clearUserInfo (state) {
+    state.token = null
   }
 }
 
@@ -29,9 +32,36 @@ const actions = {
       axios.post('/auth/signup', data)
         .then(res => {
           const token = res.data.access_token
-          commit('storeUser', {
+          commit('storeUserInfo', {
             token
           })
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  login ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/login', data)
+        .then(res => {
+          const token = res.data.access_token
+          commit('storeUserInfo', {
+            token
+          })
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  logout ({ commit }) {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/logout')
+        .then(res => {
+          commit('clearUserInfo')
           resolve(res)
         })
         .catch(error => {

@@ -37,6 +37,7 @@
             label="Email"
             required
             outlined
+            append-icon="fa-envelope"
             :error-messages="emailErrors"
             @input="$v.formData.email.$reset()"
             @blur="$v.formData.email.$touch()"
@@ -48,6 +49,7 @@
             type="password"
             required
             outlined
+            append-icon="fa-lock"
             :error-messages="passwordErrors"
             @input="$v.formData.password.$touch()"
             @blur="$v.formData.password.$touch()"
@@ -59,6 +61,7 @@
             type="password"
             required
             outlined
+            append-icon="fa-lock"
             :error-messages="repasswordErrors"
             @input="$v.formData.repassword.$touch()"
             @blur="$v.formData.repassword.$touch()"
@@ -112,7 +115,7 @@ export default {
           return new Promise((resolve, reject) => {
             this.checkEmailExists(value)
               .then(res => {
-                resolve(res.data.data.email != 'exist')
+                resolve(res.data.data.email !== 'exist')
               })
           })
         }
@@ -180,6 +183,7 @@ export default {
       this.signup(this.formData)
         .then(res => {
           this.resetForm()
+          this.$router.push({ name: 'feeds' })
         })
         .catch(error => console.log(error))
     },
