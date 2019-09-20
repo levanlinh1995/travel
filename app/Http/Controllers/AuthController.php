@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Model\User;
+use App\Model\Profile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -13,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['login', 'signup']]);
+        $this->middleware('auth', ['except' => ['login', 'signup', 'checkEmailExists']]);
     }
 
     /**
@@ -32,9 +36,40 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function signup()
-    {
+    public function checkEmailExists(Request $request) {
+        $user = User::where('email', $request->email)->first();
 
+        return response()->json([
+            'data' => [
+                'email' => $user ? 'exist' : ''
+            ]
+        ]);
+    }
+
+    public function signup(Request $request)
+    {
+        $this->validate($request, [
+            'firstName' => 'required|max:20',
+            'lastName' => 'required|max:20',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'repassword' => 'required|same:password'
+        ]);
+
+        DB::transaction(function() use ($request){
+            $user = new User();
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            $profile = new Profile();
+            $profile->user_id = $user->id;
+            $profile->first_name = $request->firstName;
+            $profile->last_name = $request->lastName;
+            $profile->save();
+        });
+
+        return $this->login($request);
     }
 
     /**

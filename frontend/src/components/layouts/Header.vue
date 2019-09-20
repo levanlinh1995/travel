@@ -21,7 +21,8 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-          <v-btn text @click="loginDialog = true">Login</v-btn>
+          <v-btn v-if="!isAuthenticated" text @click="loginDialog = true">Login</v-btn>
+          <v-btn v-if="isAuthenticated" text>Logout</v-btn>
         </v-toolbar-items>
       <!-- <v-btn icon>
         <v-icon>fa-bell</v-icon>
@@ -35,6 +36,7 @@
 
 <script>
 import LoginModal from '../auth/LoginModal'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -44,6 +46,11 @@ export default {
     return {
       loginDialog: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated'
+    })
   }
 }
 </script>
