@@ -45,6 +45,42 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
+            return response()->json([
+                'error' => [
+                    'code' => 401,
+                    'type' => 'token',
+                    'message' => 'token_black_list'
+                ],
+                
+            ], Response::HTTP_UNAUTHORIZED);
+        } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+            dd('dsfsf');
+            return response()->json([
+                'error' => [
+                    'code' => 401,
+                    'type' => 'token',
+                    'message' => 'token_expired'
+                ],
+            ], Response::HTTP_UNAUTHORIZED);
+        } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+            return response()->json([
+                'error' => [
+                    'code' => 401,
+                    'type' => 'token',
+                    'message' => 'token_invalid'
+                ],
+            ], Response::HTTP_UNAUTHORIZED);
+        } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\JWTException) { 
+            return response()->json([
+                'error' => [
+                    'code' => 401,
+                    'type' => 'token',
+                    'message' => 'token_occur'
+                ],
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
         return parent::render($request, $exception);
     }
 }

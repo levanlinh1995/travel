@@ -21,13 +21,46 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-          <v-btn v-if="!isAuthenticated" text @click="openLoginModal">Login</v-btn>
-          <v-btn v-if="!isAuthenticated" text @click="openSignupModal">Signup</v-btn>
-          <v-btn v-if="isAuthenticated" text @click="logout">Logout</v-btn>
-        </v-toolbar-items>
-      <!-- <v-btn icon>
-        <v-icon>fa-bell</v-icon>
-      </v-btn> -->
+        <v-btn v-if="!isAuthenticated" text @click="openLoginModal">Login</v-btn>
+        <v-btn v-if="!isAuthenticated" text @click="openSignupModal">Signup</v-btn>
+        <v-list-item-avatar v-if="isAuthenticated" color="grey darken-1">
+          <v-img
+            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+          ></v-img>
+        </v-list-item-avatar>
+      </v-toolbar-items>
+      <div v-if="isAuthenticated">
+        <v-btn icon>
+          <v-icon>fa-comment-dots</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>fa-bell</v-icon>
+        </v-btn>
+
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              icon
+              v-on="on"
+            >
+              <v-icon>fa-cog</v-icon>
+            </v-btn>
+          </template>
+          <v-list rounded>
+            <v-subheader>SETTING</v-subheader>
+            <v-list-item-group color="primary">
+              <v-list-item @click="logout">
+                <v-list-item-icon>
+                  <v-icon>fa-sign-out-alt</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Logout</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
+      </div>
     </v-app-bar>
 
     <!-- login modal -->
