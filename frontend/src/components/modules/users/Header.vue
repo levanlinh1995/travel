@@ -33,16 +33,16 @@
           fixed-tabs
         >
           <v-tab disabled></v-tab>
-          <v-tab>
+          <v-tab :to="{ name: 'user-timeline-home' }" exact>
             Timeline
           </v-tab>
-          <v-tab>
+          <v-tab :to="{ name: 'user-about-home' }" exact>
             About
           </v-tab>
-          <v-tab>
+          <v-tab :to="{ name: 'user-friends-home' }" exact>
             Friends
           </v-tab>
-          <v-tab>
+          <v-tab :to="{ name: 'user-photos-home' }" exact>
             Photos
           </v-tab>
         </v-tabs>

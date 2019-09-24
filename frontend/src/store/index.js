@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 // import modules
-import Auth from './modules/auth/auth'
+import authModule from './modules/auth/index'
+import userModule from './modules/user/index'
 
 Vue.use(Vuex)
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
-    auth: Auth
+    auth: authModule,
+    user: userModule
   }
 })

@@ -22,8 +22,6 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn icon>
-        </v-btn>
         <v-btn
           text
           v-if="!isAuthenticated"

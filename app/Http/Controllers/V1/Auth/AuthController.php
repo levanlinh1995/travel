@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers\V1\Auth;
+
+use App\Http\Controllers\V1\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Model\User;
@@ -11,21 +13,6 @@ use App\Transformers\UserTransformer;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth', ['except' => [
-            'login',
-            'signup',
-            'checkEmailExists',
-            'checkUsernameExists',
-        ]]);
-    }
-
     /**
      * Get a JWT via given credentials.
      *

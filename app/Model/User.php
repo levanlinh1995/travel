@@ -61,4 +61,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->morphMany('App\Model\Follower', 'followable');
     }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Model\Post', 'user_id', 'id');
+    }
 }

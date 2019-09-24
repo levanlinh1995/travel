@@ -21,5 +21,10 @@ class Post extends Model
     {
         return $this->morphMany('App\Model\Follower', 'followable');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Model\User', 'user_id', 'id');
+    }
     
 }

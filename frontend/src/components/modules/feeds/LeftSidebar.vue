@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     goToUserPage () {
-      this.$router.push({ name: 'user-post-list', params: { username: this.authenticatedUser.attributes.username } })
+      this.$router.push({ name: 'user-timeline-home', params: { username: this.authenticatedUser.attributes.username } })
     }
   }
 }

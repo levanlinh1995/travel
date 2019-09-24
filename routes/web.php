@@ -19,15 +19,33 @@ Route::group([
     'prefix' => 'api/v1',
     'namespace' => 'V1'
 ], function ($router) {
+    /******** AUTHENTICATION *****************************************************/
     Route::group([
-        'prefix' => 'auth'
+        'prefix' => 'auth',
+        'namespace' => 'Auth'
     ], function ($router) {
         Route::post('login', 'AuthController@login');
         Route::post('signup', 'AuthController@signup');
-        Route::post('logout', 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::post('me', 'AuthController@me');
         Route::post('check-email-exists', 'AuthController@checkEmailExists');
         Route::post('check-username-exists', 'AuthController@checkUsernameExists');
+
+        Route::group([
+            'prefix' => 'user',
+            'namespace' => 'User',
+            'middleware' => ['auth']
+        ], function ($router) {
+            Route::post('logout', 'AuthController@logout');
+            Route::post('refresh', 'AuthController@refresh');
+            Route::post('me', 'AuthController@me');
+        });
+    });
+
+    /******** USER *****************************************************/
+    Route::group([
+        'prefix' => 'user',
+        'namespace' => 'User',
+        'middleware' => ['auth']
+    ], function ($router) {
+        Route::get('posts', 'PostController@getPostList');
     });
 });

@@ -7,7 +7,10 @@ import LoginPage from '../components/auth/LoginPage'
 import HomePage from '../components/views/home/Home'
 import Feeds from '../components/modules/feeds/FeedHome'
 import UserHome from '../components/modules/users/UserHome'
-import UserPostList from '../components/modules/users/posts/PostList'
+import UserTimelineHome from '../components/modules/users/timeline/TimelineHome'
+import UserAboutHome from '../components/modules/users/about/AboutHome'
+import UserFriendsHome from '../components/modules/users/friends/FriendsHome'
+import UserPhotosHome from '../components/modules/users/photos/PhotosHome'
 
 Vue.use(Router)
 
@@ -50,8 +53,23 @@ const routes = [
     children: [
       {
         path: '',
-        component: UserPostList,
-        name: 'user-post-list'
+        component: UserTimelineHome,
+        name: 'user-timeline-home'
+      },
+      {
+        path: 'about',
+        component: UserAboutHome,
+        name: 'user-about-home'
+      },
+      {
+        path: 'friends',
+        component: UserFriendsHome,
+        name: 'user-friends-home'
+      },
+      {
+        path: 'photos',
+        component: UserPhotosHome,
+        name: 'user-photos-home'
       }
     ]
   }
