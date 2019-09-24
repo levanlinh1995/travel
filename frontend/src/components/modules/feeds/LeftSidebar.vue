@@ -23,10 +23,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'auth/authenticatedUser'
+    })
+  },
   methods: {
     goToUserPage () {
-      this.$router.push({ name: 'user-post-list', params: { username: 'lelinhit' } })
+      this.$router.push({ name: 'user-post-list', params: { username: this.authenticatedUser.attributes.username } })
     }
   }
 }

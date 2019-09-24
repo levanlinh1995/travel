@@ -20,9 +20,11 @@ const getters = {
 const mutations = {
   storeUserInfo (state, payload) {
     state.token = payload.token
+    state.user = payload.user
   },
   clearUserInfo (state) {
     state.token = null
+    state.user = {}
   }
 }
 
@@ -32,8 +34,10 @@ const actions = {
       axios.post('/auth/signup', data)
         .then(res => {
           const token = res.data.access_token
+          const user = res.data.user.data
           commit('storeUserInfo', {
-            token
+            token,
+            user
           })
           resolve(res)
         })
@@ -47,8 +51,11 @@ const actions = {
       axios.post('/auth/login', data)
         .then(res => {
           const token = res.data.access_token
+          const user = res.data.user.data
+          
           commit('storeUserInfo', {
-            token
+            token,
+            user
           })
           resolve(res)
         })

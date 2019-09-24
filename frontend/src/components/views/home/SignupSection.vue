@@ -4,89 +4,91 @@
         <h2 class="display-2">Create a new account</h2>
       </v-row>
       <v-row align="center" justify="center">
-        <v-form
-          @submit.prevent="submitForm"
-        >
-          <v-row>
-            <v-col cols="6">
-              <v-text-field
-                v-model="formData.firstName"
-                label="First name"
-                required
-                outlined
-                :error-messages="firstNameErrors"
-                @input="$v.formData.firstName.$touch()"
-                @blur="$v.formData.firstName.$touch()"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field
-                v-model="formData.lastName"
-                label="Last name"
-                required
-                outlined
-                :error-messages="lastNameErrors"
-                @input="$v.formData.lastName.$touch()"
-                @blur="$v.formData.lastName.$touch()"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+        <v-col cols="4">
+          <v-form
+            @submit.prevent="submitForm"
+          >
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="formData.firstName"
+                  label="First name"
+                  required
+                  outlined
+                  :error-messages="firstNameErrors"
+                  @input="$v.formData.firstName.$touch()"
+                  @blur="$v.formData.firstName.$touch()"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="formData.lastName"
+                  label="Last name"
+                  required
+                  outlined
+                  :error-messages="lastNameErrors"
+                  @input="$v.formData.lastName.$touch()"
+                  @blur="$v.formData.lastName.$touch()"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-text-field
-            v-model.lazy="formData.email"
-            label="Email"
-            required
-            outlined
-            append-icon="fa-envelope"
-            :error-messages="emailErrors"
-            @input="$v.formData.email.$reset()"
-            @blur="$v.formData.email.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model.lazy="formData.email"
+              label="Email"
+              required
+              outlined
+              append-icon="fa-envelope"
+              :error-messages="emailErrors"
+              @input="$v.formData.email.$reset()"
+              @blur="$v.formData.email.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model.lazy="formData.username"
-            label="Username"
-            required
-            outlined
-            append-icon="fa-user"
-            :error-messages="usernameErrors"
-            @input="$v.formData.username.$reset()"
-            @blur="$v.formData.username.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model.lazy="formData.username"
+              label="Username"
+              required
+              outlined
+              append-icon="fa-user"
+              :error-messages="usernameErrors"
+              @input="$v.formData.username.$reset()"
+              @blur="$v.formData.username.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="formData.password"
-            label="Password"
-            type="password"
-            required
-            outlined
-            append-icon="fa-lock"
-            :error-messages="passwordErrors"
-            @input="$v.formData.password.$touch()"
-            @blur="$v.formData.password.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="formData.password"
+              label="Password"
+              type="password"
+              required
+              outlined
+              append-icon="fa-lock"
+              :error-messages="passwordErrors"
+              @input="$v.formData.password.$touch()"
+              @blur="$v.formData.password.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="formData.repassword"
-            label="Re-password"
-            type="password"
-            required
-            outlined
-            append-icon="fa-lock"
-            :error-messages="repasswordErrors"
-            @input="$v.formData.repassword.$touch()"
-            @blur="$v.formData.repassword.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="formData.repassword"
+              label="Re-password"
+              type="password"
+              required
+              outlined
+              append-icon="fa-lock"
+              :error-messages="repasswordErrors"
+              @input="$v.formData.repassword.$touch()"
+              @blur="$v.formData.repassword.$touch()"
+            ></v-text-field>
 
-          <div class="text-center">
-            <v-btn
-              color="primary"
-              type="submit"
-            >
-              Sign up
-            </v-btn>
-          </div>
-        </v-form>
+            <div class="text-center">
+              <v-btn
+                color="primary"
+                type="submit"
+              >
+                Sign up
+              </v-btn>
+            </div>
+          </v-form>
+        </v-col>
     </v-row>
   </div>
 </template>

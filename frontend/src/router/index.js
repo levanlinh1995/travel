@@ -14,6 +14,7 @@ Vue.use(Router)
 let redirectToFeedsPageIfLoggedIn = (to, from, next) => {
   if (store.getters['auth/isAuthenticated']) {
     next({ name: 'feeds' })
+    return
   }
 
   next()
@@ -67,8 +68,10 @@ router.beforeEach((to, from, next) => {
     if (store.getters['auth/isAuthenticated']) {
       next()
       return
+    } else{
+      next({ name: 'login' })
+      return
     }
-    next({ name: 'login' })
   }
 
   next()

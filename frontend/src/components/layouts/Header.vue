@@ -9,7 +9,9 @@
         style="width: 300px"
         class="ml-0 pl-3"
       >
-        <span class="hidden-sm-and-down">Phượt</span>
+        <router-link :to="{ name: 'home' }" tag="span" style="cursor: pointer">
+          Phượt
+        </router-link>
       </v-toolbar-title>
       <v-text-field
         flat
@@ -17,7 +19,6 @@
         hide-details
         prepend-inner-icon="fa-search"
         label="Search"
-        class="hidden-sm-and-down"
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items>
@@ -43,6 +44,7 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-list-item-avatar
+              style="cursor: pointer"
               v-if="isAuthenticated"
               v-on="on"
               color="grey darken-1"

@@ -28,7 +28,7 @@ class Controller extends BaseController
     public function item($data, $transformer)
     {
         $manager = $this->getFractalManager();
-        $resource = new Item($data, $transformer);
+        $resource = new Item($data, $transformer, $transformer->type);
         return $manager->createData($resource)->toArray();
 
     }
@@ -36,7 +36,7 @@ class Controller extends BaseController
     public function collection($data, $transformer)
     {
         $manager = $this->getFractalManager();
-        $resource = new Collection($data, $transformer);
+        $resource = new Collection($data, $transformer, $transformer->type);
         return $manager->createData($resource)->toArray();
     }
 

@@ -4,14 +4,14 @@
       class="mx-auto"
     >
       <v-list-item>
-        <v-list-item-avatar color="grey darken-1">
+        <v-list-item-avatar color="grey darken-1" style="cursor: pointer">
           <v-img
             src="https://cdn.vuetifyjs.com/images/john.jpg"
           ></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="headline">Our Kurt Wagner</v-list-item-title>
+          <v-list-item-title class="headline" style="cursor: pointer">Our Kurt Wagner</v-list-item-title>
           <v-list-item-subtitle>1h ago</v-list-item-subtitle>
         </v-list-item-content>
         <v-menu offset-y>
