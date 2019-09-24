@@ -6,8 +6,7 @@
       <v-list-item>
         <v-list-item-avatar color="grey darken-1">
           <v-img
-            class="elevation-3"
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+            src="https://cdn.vuetifyjs.com/images/john.jpg"
           ></v-img>
         </v-list-item-avatar>
 
@@ -21,7 +20,7 @@
               icon
               v-on="on"
             >
-              <v-icon>fa-ellipsis-v</v-icon>
+              <v-icon small>fa-ellipsis-v</v-icon>
             </v-btn>
           </template>
           <v-list dense>

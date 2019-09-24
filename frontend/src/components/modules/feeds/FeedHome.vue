@@ -7,7 +7,7 @@
       <v-col cols="5">
         <feed-content></feed-content>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="4">
         <right-side-bar></right-side-bar>
       </v-col>
     </v-row>

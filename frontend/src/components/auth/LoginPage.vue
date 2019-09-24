@@ -27,7 +27,7 @@
                   label="Email"
                   required
                   outlined
-                  append-icon="fa-user"
+                  append-icon="fa-envelope"
                   :error-messages="emailErrors"
                   @input="$v.formData.email.$touch()"
                   @blur="$v.formData.email.$touch()"
@@ -88,8 +88,8 @@ export default {
     emailErrors () {
       const errors = []
       if (!this.$v.formData.email.$dirty) return errors
-      !this.$v.formData.email.email && errors.push('Must be valid e-mail')
-      !this.$v.formData.email.required && errors.push('Email field is required')
+      !this.$v.formData.email.email && errors.push('Email must be a valid email address.')
+      !this.$v.formData.email.required && errors.push('Email field is required.')
       return errors
     },
     passwordErrors () {

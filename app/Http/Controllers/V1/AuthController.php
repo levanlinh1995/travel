@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Model\User;
@@ -17,7 +17,12 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['login', 'signup', 'checkEmailExists']]);
+        $this->middleware('auth', ['except' => [
+            'login',
+            'signup',
+            'checkEmailExists',
+            'checkUsernameExists',
+        ]]);
     }
 
     /**
@@ -52,19 +57,33 @@ class AuthController extends Controller
         ]);
     }
 
+    public function checkUsernameExists(Request $request) {
+        $user = User::where('username', $request->username)->first();
+
+        return response()->json([
+            'data' => [
+                'username' => $user ? 'exist' : ''
+            ]
+        ]);
+    }
+
     public function signup(Request $request)
     {
         $this->validate($request, [
-            'firstName' => 'required|max:20',
-            'lastName' => 'required|max:20',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'firstName' => 'required|max:50',
+            'lastName' => 'required|max:50',
+            'email' => 'required|email|unique:users,email',
+            'username' => 'required|max:50|alpha_num|unique:users,username',
+            'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/',
             'repassword' => 'required|same:password'
+        ], [
+            'password.regex' => 'Password must be at least 8 characters and contain a lowercase character, uppercase character and a number.'
         ]);
 
         DB::transaction(function() use ($request){
             $user = new User();
             $user->email = $request->email;
+            $user->username = $request->username;
             $user->password = Hash::make($request->password);
             $user->save();
 

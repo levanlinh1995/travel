@@ -79,6 +79,17 @@ const actions = {
           reject(error)
         })
     })
+  },
+  checkUsernameExists ({ commit }, username) {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/check-username-exists', { username })
+        .then(res => {
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
   }
 }
 

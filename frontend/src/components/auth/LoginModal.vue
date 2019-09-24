@@ -41,7 +41,7 @@
                       label="Email"
                       required
                       outlined
-                      append-icon="fa-user"
+                      append-icon="fa-envelope"
                       :error-messages="LoginEmailErrors"
                       @input="$v.loginFormData.email.$touch()"
                       @blur="$v.loginFormData.email.$touch()"
@@ -87,7 +87,7 @@
               flat
               tile
             >
-              <v-card-title class="headline justify-center primary--text font-weight-medium">Sign up a account</v-card-title>
+              <v-card-title class="headline justify-center primary--text font-weight-medium">Create a new account</v-card-title>
               <v-card-text>
                 <v-container>
                   <v-form
@@ -126,6 +126,16 @@
                       :error-messages="signupEmailErrors"
                       @input="$v.signupFormData.email.$reset()"
                       @blur="$v.signupFormData.email.$touch()"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model.lazy="signupFormData.username"
+                      label="Username"
+                      required
+                      outlined
+                      append-icon="fa-user"
+                      :error-messages="signupUsernameErrors"
+                      @input="$v.signupFormData.username.$reset()"
+                      @blur="$v.signupFormData.username.$touch()"
                     ></v-text-field>
 
                     <v-text-field
@@ -177,7 +187,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { required, minLength, maxLength, email, sameAs } from 'vuelidate/lib/validators'
+import { required, maxLength, email, sameAs, alphaNum } from 'vuelidate/lib/validators'
+import passwordComplexity from '../../plugins/vuevalidate/customValidators/passwordComplexity'
 
 export default {
   model: {
@@ -202,6 +213,7 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
+        username: '',
         password: '',
         repassword: ''
       }
@@ -220,29 +232,44 @@ export default {
     signupFormData: {
       firstName: {
         required,
-        maxLength: maxLength(20)
+        maxLength: maxLength(50)
       },
       lastName: {
         required,
-        maxLength: maxLength(20)
+        maxLength: maxLength(50)
       },
       email: {
         required,
         email,
-        isUnique (value) {
-          if (value === '') return true
+        checkEmailExists (email) {
+          if (email === '') return true
 
           return new Promise((resolve, reject) => {
-            this.checkEmailExists(value)
+            this.$store.dispatch('auth/checkEmailExists', email)
               .then(res => {
                 resolve(res.data.data.email !== 'exist')
               })
           })
         }
       },
+      username: {
+        required,
+        alphaNum,
+        maxLength: maxLength(50),
+        checkUsernameExists (username) {
+          if (username === '') return true
+
+          return new Promise((resolve, reject) => {
+            this.$store.dispatch('auth/checkUsernameExists', username)
+              .then(res => {
+                resolve(res.data.data.username !== 'exist')
+              })
+          })
+        }
+      },
       password: {
         required,
-        minLength: minLength(6)
+        passwordComplexity
       },
       repassword: {
         required,
@@ -270,50 +297,63 @@ export default {
     LoginEmailErrors () {
       const errors = []
       if (!this.$v.loginFormData.email.$dirty) return errors
-      !this.$v.loginFormData.email.email && errors.push('Must be valid e-mail')
-      !this.$v.loginFormData.email.required && errors.push('Email field is required')
+      !this.$v.loginFormData.email.email && errors.push('Email must be a valid email address.')
+      !this.$v.loginFormData.email.required && errors.push('Email field is required.')
       return errors
     },
     LoginPasswordErrors () {
       const errors = []
       if (!this.$v.loginFormData.password.$dirty) return errors
-      !this.$v.loginFormData.password.required && errors.push('Password field is required')
+      !this.$v.loginFormData.password.required && errors.push('Password field is required.')
       return errors
     },
     signupFirstNameErrors () {
       const errors = []
       if (!this.$v.signupFormData.firstName.$dirty) return errors
-      !this.$v.signupFormData.firstName.maxLength && errors.push(`First name field must have at most ${this.$v.signupFormData.firstName.$params.maxLength.max} letters`)
-      !this.$v.signupFormData.firstName.required && errors.push('First name field is required')
+      !this.$v.signupFormData.firstName.maxLength && errors.push(`First name may not be greater
+                  than ${this.$v.signupFormData.firstName.$params.maxLength.max} characters.`)
+      !this.$v.signupFormData.firstName.required && errors.push('First name field is required.')
       return errors
     },
     signupLastNameErrors () {
       const errors = []
       if (!this.$v.signupFormData.lastName.$dirty) return errors
-      !this.$v.signupFormData.lastName.maxLength && errors.push(`Last name field must have at most ${this.$v.signupFormData.lastName.$params.maxLength.max} letters`)
-      !this.$v.signupFormData.lastName.required && errors.push('Last name field is required')
+      !this.$v.signupFormData.lastName.maxLength && errors.push(`Last name may not be greater
+                    than ${this.$v.signupFormData.lastName.$params.maxLength.max} characters.`)
+      !this.$v.signupFormData.lastName.required && errors.push('Last name field is required.')
       return errors
     },
     signupEmailErrors () {
       const errors = []
       if (!this.$v.signupFormData.email.$dirty) return errors
-      !this.$v.signupFormData.email.isUnique && errors.push('This email is already registered')
-      !this.$v.signupFormData.email.email && errors.push('Must be valid e-mail')
-      !this.$v.signupFormData.email.required && errors.push('Email field is required')
+      !this.$v.signupFormData.email.checkEmailExists && errors.push('This email has already been taken.')
+      !this.$v.signupFormData.email.email && errors.push('Email must be a valid email address.')
+      !this.$v.signupFormData.email.required && errors.push('Email field is required.')
+      return errors
+    },
+    signupUsernameErrors () {
+      const errors = []
+      if (!this.$v.signupFormData.username.$dirty) return errors
+      !this.$v.signupFormData.username.checkUsernameExists && errors.push('This username has already been taken.')
+      !this.$v.signupFormData.username.maxLength && errors.push(`Username may not be greater
+                    than ${this.$v.signupFormData.username.$params.maxLength.max} characters.`)
+      !this.$v.signupFormData.username.alphaNum && errors.push('Username may only contain letters and numbers.')
+      !this.$v.signupFormData.username.required && errors.push('Username field is required.')
       return errors
     },
     signupPasswordErrors () {
       const errors = []
       if (!this.$v.signupFormData.password.$dirty) return errors
-      !this.$v.signupFormData.password.minLength && errors.push(`Password field must have at least ${this.$v.signupFormData.password.$params.minLength.min} letters`)
-      !this.$v.signupFormData.password.required && errors.push('Password field is required')
+      !this.$v.signupFormData.password.passwordComplexity && errors.push(`Password must be at least 8 characters 
+                and contain a lowercase character, uppercase character and a number.`)
+      !this.$v.signupFormData.password.required && errors.push('Password field is required.')
       return errors
     },
     signupRepasswordErrors () {
       const errors = []
       if (!this.$v.signupFormData.repassword.$dirty) return errors
-      !this.$v.signupFormData.repassword.sameAsPassword && errors.push('Passwords must be identical')
-      !this.$v.signupFormData.repassword.required && errors.push('Re-password field is required')
+      !this.$v.signupFormData.repassword.sameAsPassword && errors.push('Re-password and password must match.')
+      !this.$v.signupFormData.repassword.required && errors.push('Re-password field is required.')
       return errors
     }
   },
@@ -322,8 +362,7 @@ export default {
       login: 'auth/login'
     }),
     ...mapActions({
-      signup: 'auth/signup',
-      checkEmailExists: 'auth/checkEmailExists'
+      signup: 'auth/signup'
     }),
     closeModal () {
       this.$emit('change', false)
@@ -366,6 +405,7 @@ export default {
       this.signupFormData.firstName = ''
       this.signupFormData.lastName = ''
       this.signupFormData.email = ''
+      this.signupFormData.username = ''
       this.signupFormData.password = ''
       this.signupFormData.repassword = ''
     },

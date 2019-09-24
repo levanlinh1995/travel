@@ -1,14 +1,12 @@
 <template>
   <div>
     <v-list class="elevation-2" dense>
-      <v-list-item-group color="primary">
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-img src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
-          </v-list-item-avatar>
-          <v-list-item-title>Le Linh</v-list-item-title>
-        </v-list-item>
-      </v-list-item-group>
+      <v-list-item @click="goToUserPage">
+        <v-list-item-avatar>
+          <v-img src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
+        </v-list-item-avatar>
+        <v-list-item-title>Le Linh</v-list-item-title>
+      </v-list-item>
       <v-subheader>EXPLORE</v-subheader>
       <v-list-item-group color="primary">
         <v-list-item>
@@ -26,7 +24,11 @@
 
 <script>
 export default {
-
+  methods: {
+    goToUserPage () {
+      this.$router.push({ name: 'user-post-list', params: { username: 'lelinhit' } })
+    }
+  }
 }
 </script>
 

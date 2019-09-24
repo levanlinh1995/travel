@@ -4,8 +4,10 @@ import store from '../store/index'
 
 // import component
 import LoginPage from '../components/auth/LoginPage'
-import Home from '../components/views/home/Home'
-import Feeds from '../components/modules/feeds/Feed'
+import HomePage from '../components/views/home/Home'
+import Feeds from '../components/modules/feeds/FeedHome'
+import UserHome from '../components/modules/users/UserHome'
+import UserPostList from '../components/modules/users/posts/PostList'
 
 Vue.use(Router)
 
@@ -20,12 +22,12 @@ let redirectToFeedsPageIfLoggedIn = (to, from, next) => {
 const routes = [
   {
     path: '',
-    component: Home,
-    name: '/home',
+    component: HomePage,
+    name: 'home',
     beforeEnter: redirectToFeedsPageIfLoggedIn
   },
   {
-    path: '/login',
+    path: '/auth/login',
     component: LoginPage,
     name: 'login',
     beforeEnter: redirectToFeedsPageIfLoggedIn
@@ -37,6 +39,20 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/user/:username',
+    component: UserHome,
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: '',
+        component: UserPostList,
+        name: 'user-post-list'
+      }
+    ]
   }
 ]
 
