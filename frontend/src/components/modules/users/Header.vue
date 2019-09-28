@@ -17,7 +17,7 @@
           height="130px"
         >
           <img
-            src="https://cdn.vuetifyjs.com/images/john.jpg"
+            :src="AvatarUrl"
             alt="John"
           >
         </v-avatar>
@@ -52,8 +52,22 @@
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex'
+import helpers from '@/helpers/helpers'
 
+export default {
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'auth/authenticatedUser'
+    }),
+    AvatarUrl () {
+      let src = this.authenticatedUser.profile ? this.authenticatedUser.profile.data.avatarUrl : ''
+      if (!src) {
+        src = helpers.defaultAvatarURL
+      }
+      return src
+    }
+  }
 }
 </script>
 

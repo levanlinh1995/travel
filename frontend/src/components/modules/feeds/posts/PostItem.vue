@@ -4,15 +4,27 @@
       class="mx-auto"
     >
       <v-list-item>
-        <v-list-item-avatar color="grey darken-1" style="cursor: pointer">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/john.jpg"
-          ></v-img>
+        <v-list-item-avatar
+          color="white"
+          style="cursor: pointer"
+        >
+          <v-avatar>
+            <img v-if="AvatarUrl" :src="AvatarUrl">
+          </v-avatar>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="headline" style="cursor: pointer">Our Kurt Wagner</v-list-item-title>
-          <v-list-item-subtitle>1h ago</v-list-item-subtitle>
+          <v-list-item-title class="headline" style="cursor: pointer">
+            {{ fullName }}
+          </v-list-item-title>
+          <v-tooltip bottom left>
+            <template v-slot:activator="{ on }">
+              <v-list-item-subtitle v-on="on">
+                {{ postCreatedAt | moment('from')}}
+              </v-list-item-subtitle>
+            </template>
+            <span>{{ postCreatedAt | moment('dddd, MMMM Do YYYY, h:mm:ss a')}}</span>
+          </v-tooltip>
         </v-list-item-content>
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
@@ -39,7 +51,7 @@
       </v-list-item>
 
       <v-card-text>
-        Visit ten places on our planet that are undergoing the biggest changes today.
+        {{ postContent }}
       </v-card-text>
 
       <v-card-actions>
@@ -58,11 +70,31 @@
 </template>
 
 <script>
+import helpers from '@/helpers/helpers'
+
 export default {
   props: {
     post: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    fullName () {
+      return this.post.author.data.profile.data.fullName
+    },
+    AvatarUrl () {
+      let src = this.post.author.data.profile.data.avatarUrl
+      if (!src) {
+        src = helpers.defaultAvatarURL
+      }
+      return src
+    },
+    postCreatedAt () {
+      return this.post.createdAt
+    },
+    postContent () {
+      return this.post.content
     }
   }
 }

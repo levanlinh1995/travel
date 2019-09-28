@@ -86,7 +86,7 @@ router.beforeEach((to, from, next) => {
     if (store.getters['auth/isAuthenticated']) {
       next()
       return
-    } else{
+    } else {
       next({ name: 'login' })
       return
     }

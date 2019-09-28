@@ -3,15 +3,16 @@ import App from './App.vue'
 import router from './router/index'
 import store from './store/index'
 import vuetify from './plugins/vuetify'
-import '@babel/polyfill'
 import i18n from './i18n/i18n'
 import axios from './axios/index'
 import VueAxios from 'vue-axios'
 import Vuelidate from 'vuelidate'
+import '@babel/polyfill'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(Vuelidate)
+Vue.use(require('vue-moment'))
 
 new Vue({
   router,

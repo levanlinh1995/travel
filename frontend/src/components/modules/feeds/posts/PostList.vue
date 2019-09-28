@@ -1,6 +1,7 @@
 <template>
   <div>
     <post-item
+      class="mb-3"
       :post="post"
       v-for="post in posts"
       :key="post.id"

@@ -45,11 +45,11 @@
               style="cursor: pointer"
               v-if="isAuthenticated"
               v-on="on"
-              color="grey darken-1"
+              color="white"
             >
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/john.jpg"
-              ></v-img>
+              <v-avatar>
+                <img v-if="AvatarUrl" :src="AvatarUrl">
+              </v-avatar>
             </v-list-item-avatar>
           </template>
           <v-list dense>
@@ -77,6 +77,7 @@
 <script>
 import LoginModal from '../auth/LoginModal'
 import { mapGetters, mapActions } from 'vuex'
+import helpers from '@/helpers/helpers'
 
 export default {
   components: {
@@ -92,8 +93,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAuthenticated: 'auth/isAuthenticated'
-    })
+      isAuthenticated: 'auth/isAuthenticated',
+      authenticatedUser: 'auth/authenticatedUser'
+    }),
+    AvatarUrl () {
+      let src = this.authenticatedUser.profile.data.avatarUrl
+      if (!src) {
+        src = helpers.defaultAvatarURL
+      }
+      return src
+    }
   },
   methods: {
     ...mapActions({

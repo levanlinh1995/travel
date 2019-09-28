@@ -18,84 +18,85 @@ const getters = {
 }
 
 const mutations = {
-  storeUserInfo (state, payload) {
+  storeToken (state, payload) {
     state.token = payload.token
+  },
+  storeUserInfo (state, payload) {
     state.user = payload.user
   },
-  clearUserInfo (state) {
+  logout (state) {
     state.token = null
     state.user = {}
   }
 }
 
 const actions = {
-  signup ({ commit }, data) {
+  signup ({ dispatch, commit }, data) {
     return new Promise((resolve, reject) => {
       axios.post('/auth/signup', data)
         .then(res => {
           const token = res.data.access_token
-          const user = res.data.user.data
-          commit('storeUserInfo', {
-            token,
-            user
-          })
-          resolve(res)
+          dispatch('getAuthenticatedUser', token)
+            .then(res => resolve(res))
+            .catch(error => reject(error))
         })
-        .catch(error => {
-          reject(error)
-        })
+        .catch(error => reject(error))
     })
   },
-  login ({ commit }, data) {
+  login ({ dispatch, commit }, data) {
     return new Promise((resolve, reject) => {
       axios.post('/auth/login', data)
         .then(res => {
           const token = res.data.access_token
-          const user = res.data.user.data
-          
+          dispatch('getAuthenticatedUser', token)
+            .then(res => resolve(res))
+            .catch(error => reject(error))
+        })
+        .catch(error => reject(error))
+    })
+  },
+  getAuthenticatedUser ({ commit }, token) {
+    return new Promise((resolve, reject) => {
+      axios.post('/auth/me', { token }, {
+        params: {
+          include: 'profile'
+        }
+      })
+        .then(res => {
+          const user = res.data.data
           commit('storeUserInfo', {
-            token,
             user
+          })
+          commit('storeToken', {
+            token
           })
           resolve(res)
         })
-        .catch(error => {
-          reject(error)
-        })
+        .catch(error => reject(error))
     })
   },
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.post('/auth/logout')
         .then(res => {
-          commit('clearUserInfo')
+          commit('logout')
           resolve(res)
         })
-        .catch(error => {
-          reject(error)
-        })
+        .catch(error => reject(error))
     })
   },
   checkEmailExists ({ commit }, email) {
     return new Promise((resolve, reject) => {
       axios.post('/auth/check-email-exists', { email })
-        .then(res => {
-          resolve(res)
-        })
-        .catch(error => {
-          reject(error)
-        })
+        .then(res => resolve(res))
+        .catch(error => reject(error))
     })
   },
   checkUsernameExists ({ commit }, username) {
     return new Promise((resolve, reject) => {
       axios.post('/auth/check-username-exists', { username })
-        .then(res => {
-          resolve(res)
-        })
-        .catch(error => {
-          reject(error)
-        })
+        .then(res => resolve(res))
+        .catch(error => reject(error))
     })
   }
 }

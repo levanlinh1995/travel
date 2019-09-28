@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import PostList from './posts/PostList'
 import LeftSideBar from './LeftSideBar'
 
@@ -19,17 +19,13 @@ export default {
     PostList,
     LeftSideBar
   },
-  data () {
-    return {
-      posts: []
-    }
+  computed: {
+    ...mapGetters({
+      posts: 'user/posts/postList'
+    })
   },
-  created() {
+  created () {
     this.getPostList()
-      .then(res => {
-        this.posts = res.data.data
-      })
-      .catch(error => console.log(error))
   },
   methods: {
     ...mapActions({
