@@ -32,7 +32,11 @@ const actions = {
           page: payload.page
         }
       })
-        .then(res => resolve(res))
+        .then(res => {
+          const postList = res.data.data
+          commit('addMorePost', postList)
+          resolve(res)
+        })
         .catch(error => reject(error))
     })
   },

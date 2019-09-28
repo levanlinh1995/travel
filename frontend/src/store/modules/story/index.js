@@ -1,47 +1,47 @@
-import axios from '../../../axios/index'
+import axios from '@/axios/index'
 
 const state = {
-  posts: []
+  stories: []
 }
 
 const getters = {
-  postList (state) {
-    return state.posts
+  storyList (state) {
+    return state.stories
   }
 }
 
 const mutations = {
-  addMorePost (state, payload) {
+  addMoreStory (state, payload) {
     if (Array.isArray(payload)) {
-      state.posts.push(...payload)
+      state.stories.push(...payload)
     } else {
-      state.posts.push(payload)
+      state.stories.push(payload)
     }
   },
-  clearPosts (state) {
-    state.posts = []
+  clearStories (state) {
+    state.stories = []
   }
 }
 
 const actions = {
-  getPostList ({ commit }, payload) {
+  getStoryList ({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('/user/posts', {
+      axios.get('/blog/list', {
         params: {
           include: 'author.profile',
           page: payload.page
         }
       })
         .then(res => {
-          const postList = res.data.data
-          commit('addMorePost', postList)
+          const storyList = res.data.data
+          commit('addMoreStory', storyList)
           resolve(res)
         })
         .catch(error => reject(error))
     })
   },
-  clearPostList ({ commit }) {
-    commit('clearPosts')
+  clearStoryList ({ commit }) {
+    commit('clearStories')
   }
 }
 

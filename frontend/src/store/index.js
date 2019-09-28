@@ -6,6 +6,7 @@ import createPersistedState from 'vuex-persistedstate'
 import authModule from './modules/auth/index'
 import userModule from './modules/user/index'
 import feedModule from './modules/feed/index'
+import storyModule from './modules/story/index'
 
 Vue.use(Vuex)
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
   modules: {
     auth: authModule,
     feed: feedModule,
-    user: userModule
+    user: userModule,
+    story: storyModule
   }
 })

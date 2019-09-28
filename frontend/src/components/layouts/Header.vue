@@ -23,6 +23,14 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn
+          v-if="isAuthenticated"
+          text
+          class="subtitle-2"
+          :to="{ name: 'story-list' }"
+        >
+          Journey Stories
+        </v-btn>
+        <v-btn
           text
           v-if="!isAuthenticated"
           @click="openLoginModal"

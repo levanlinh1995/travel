@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import InfiniteLoading from 'vue-infinite-loading'
 import PostList from './posts/PostList'
 
@@ -40,9 +40,6 @@ export default {
     })
   },
   methods: {
-    ...mapMutations({
-      addMorePost: 'feed/posts/addMorePost'
-    }),
     ...mapActions({
       getPostList: 'feed/posts/getPostList',
       clearPostList: 'feed/posts/clearPostList'
@@ -52,7 +49,6 @@ export default {
         .then(res => {
           const postList = res.data.data
           if (postList.length > 0) {
-            this.addMorePost(postList)
             $state.loaded()
           } else {
             $state.complete()

@@ -7,6 +7,7 @@
         <v-list-item-avatar
           color="white"
           style="cursor: pointer"
+          @click="gotoUserPage"
         >
           <v-avatar>
             <img v-if="AvatarUrl" :src="AvatarUrl">
@@ -14,7 +15,11 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="headline" style="cursor: pointer">
+          <v-list-item-title
+            @click="gotoUserPage"
+            class="headline"
+            style="cursor: pointer"
+          >
             {{ fullName }}
           </v-list-item-title>
           <v-tooltip bottom left>
@@ -95,6 +100,16 @@ export default {
     },
     postContent () {
       return this.post.content
+    }
+  },
+  methods: {
+    gotoUserPage () {
+      this.$router.push({
+        name: 'user-timeline-home',
+        params: {
+          username: this.post.author.data.username
+        }
+      })
     }
   }
 }

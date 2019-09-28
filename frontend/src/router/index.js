@@ -11,6 +11,8 @@ import UserTimelineHome from '../components/modules/users/timeline/TimelineHome'
 import UserAboutHome from '../components/modules/users/about/AboutHome'
 import UserFriendsHome from '../components/modules/users/friends/FriendsHome'
 import UserPhotosHome from '../components/modules/users/photos/PhotosHome'
+import JourneyStoryHome from '../components/modules/stories/StoryHome'
+import StoryList from '../components/modules/stories/StoryList'
 
 Vue.use(Router)
 
@@ -70,6 +72,17 @@ const routes = [
         path: 'photos',
         component: UserPhotosHome,
         name: 'user-photos-home'
+      }
+    ]
+  },
+  {
+    path: '/journey-story',
+    component: JourneyStoryHome,
+    children: [
+      {
+        path: '',
+        component: StoryList,
+        name: 'story-list'
       }
     ]
   }

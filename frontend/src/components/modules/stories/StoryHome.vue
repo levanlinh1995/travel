@@ -1,5 +1,7 @@
 <template>
-  <div>comming soon</div>
+  <div>
+      <router-view/>
+  </div>
 </template>
 
 <script>

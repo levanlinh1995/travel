@@ -13,6 +13,14 @@
       </v-list-item>
       <v-subheader>EXPLORE</v-subheader>
       <v-list-item-group color="primary">
+        <v-list-item :to="{ name: 'story-list' }">
+          <v-list-item-icon>
+            <v-icon>fa-book-reader</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Journey stories</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item>
           <v-list-item-icon>
             <v-icon>fa-bookmark</v-icon>
