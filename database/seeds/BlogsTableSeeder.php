@@ -11,6 +11,6 @@ class BlogsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Model\Blog::class, 100)->create();
+        factory(App\Model\Blog::class, 50)->create();
     }
 }

@@ -4,6 +4,7 @@
       <left-side-bar></left-side-bar>
     </v-col>
     <v-col cols="7">
+      <create-new-post></create-new-post>
       <post-list :posts="posts"></post-list>
       <infinite-loading @distance="1" @infinite="infiniteHandler">
         <div slot="spinner">
@@ -23,12 +24,14 @@
 import { mapGetters, mapActions } from 'vuex'
 import InfiniteLoading from 'vue-infinite-loading'
 import PostList from './posts/PostList'
+import CreateNewPost from '../../posts/CreateNewPost'
 import LeftSideBar from './LeftSideBar'
 
 export default {
   components: {
     InfiniteLoading,
     PostList,
+    CreateNewPost,
     LeftSideBar
   },
   data () {

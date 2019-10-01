@@ -18,6 +18,7 @@ class CreateBlogsTable extends Migration
             $table->bigInteger('user_id');
             $table->string('title');
             $table->string('slug');
+            $table->string('featured_image')->nullable();
             $table->text('content');
             $table->boolean('status')->default('1')->comment('0: disabled, 1: enabled, 2: draft');
             $table->softDeletes();

@@ -2,17 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
 
-// import component
-import LoginPage from '../components/auth/LoginPage'
-import HomePage from '../components/views/home/Home'
-import Feeds from '../components/modules/feeds/FeedHome'
-import UserHome from '../components/modules/users/UserHome'
-import UserTimelineHome from '../components/modules/users/timeline/TimelineHome'
-import UserAboutHome from '../components/modules/users/about/AboutHome'
-import UserFriendsHome from '../components/modules/users/friends/FriendsHome'
-import UserPhotosHome from '../components/modules/users/photos/PhotosHome'
-import JourneyStoryHome from '../components/modules/stories/StoryHome'
-import StoryList from '../components/modules/stories/StoryList'
+// lazy load component
+const LoginPage = () => import('../components/auth/LoginPage')
+const HomePage = () => import('../components/modules/feeds/FeedHome')
+const Feeds = () => import('../components/modules/feeds/FeedHome')
+const UserHome = () => import('../components/modules/users/UserHome')
+const UserTimelineHome = () => import('../components/modules/users/timeline/TimelineHome')
+const UserAboutHome = () => import('../components/modules/users/about/AboutHome')
+const UserFriendsHome = () => import('../components/modules/users/friends/FriendsHome')
+const UserPhotosHome = () => import('../components/modules/users/photos/PhotosHome')
+const JourneyStoryHome = () => import('../components/modules/stories/StoryHome')
+const StoryList = () => import('../components/modules/stories/StoryList')
 
 Vue.use(Router)
 

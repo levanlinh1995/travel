@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -47,34 +48,37 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
             return response()->json([
+                'success' => false,
                 'error' => [
-                    'code' => 401,
+                    'code' => Response::HTTP_UNAUTHORIZED,
                     'type' => 'token',
                     'message' => 'token_black_list'
                 ],
                 
             ], Response::HTTP_UNAUTHORIZED);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            dd('dsfsf');
             return response()->json([
+                'success' => false,
                 'error' => [
-                    'code' => 401,
+                    'code' => Response::HTTP_UNAUTHORIZED,
                     'type' => 'token',
                     'message' => 'token_expired'
                 ],
             ], Response::HTTP_UNAUTHORIZED);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
             return response()->json([
+                'success' => false,
                 'error' => [
-                    'code' => 401,
+                    'code' => Response::HTTP_UNAUTHORIZED,
                     'type' => 'token',
                     'message' => 'token_invalid'
                 ],
             ], Response::HTTP_UNAUTHORIZED);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\JWTException) { 
             return response()->json([
+                'success' => false,
                 'error' => [
-                    'code' => 401,
+                    'code' => Response::HTTP_UNAUTHORIZED,
                     'type' => 'token',
                     'message' => 'token_occur'
                 ],

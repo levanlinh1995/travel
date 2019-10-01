@@ -95,10 +95,12 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { validationMixin } from 'vuelidate'
 import { required, maxLength, email, sameAs, alphaNum } from 'vuelidate/lib/validators'
 import passwordComplexity from '../../../plugins/vuevalidate/customValidators/passwordComplexity'
 
 export default {
+  mixins: [validationMixin],
   data () {
     return {
       formData: {

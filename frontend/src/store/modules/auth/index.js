@@ -12,6 +12,9 @@ const getters = {
   authenticatedUser (state) {
     return state.user
   },
+  authenticatedUserId (state) {
+    return state.user.id
+  },
   isAuthenticated (state) {
     return state.token !== null
   }
@@ -57,11 +60,7 @@ const actions = {
   },
   getAuthenticatedUser ({ commit }, token) {
     return new Promise((resolve, reject) => {
-      axios.post('/auth/me', { token }, {
-        params: {
-          include: 'profile'
-        }
-      })
+      axios.post('/auth/me', { token })
         .then(res => {
           const user = res.data.data
           commit('storeUserInfo', {

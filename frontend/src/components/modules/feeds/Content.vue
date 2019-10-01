@@ -1,5 +1,6 @@
 <template>
   <div>
+    <create-new-post></create-new-post>
     <post-list
       :posts="posts"
     ></post-list>
@@ -19,12 +20,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import InfiniteLoading from 'vue-infinite-loading'
+import CreateNewPost from '../posts/CreateNewPost'
 import PostList from './posts/PostList'
 
 export default {
   components: {
     InfiniteLoading,
-    PostList
+    PostList,
+    CreateNewPost
   },
   data () {
     return {

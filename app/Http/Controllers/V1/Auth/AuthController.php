@@ -92,7 +92,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(Auth::user());
+        return $this->item(Auth::user(), new UserTransformer(), 'user');
     }
 
     /**
@@ -130,7 +130,6 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
-            'user' => $this->item(Auth::user(), new UserTransformer())
         ]);
     }
 }

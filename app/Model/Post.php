@@ -5,6 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    const DISABLE_STATUS = 0;
+    const ENABLE_STATUS = 1;
+    const DRAFT_STATUS = 2;
+
     protected $table = 'posts';
 
     public function comments()

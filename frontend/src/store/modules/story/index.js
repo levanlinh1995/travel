@@ -28,7 +28,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.get('/blog/list', {
         params: {
-          include: 'author.profile',
           page: payload.page
         }
       })

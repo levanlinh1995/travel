@@ -61,10 +61,15 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>fa-heart</v-icon>
+        <v-btn
+          icon
+          @click="likeIt"
+        >
+          <v-icon
+            :color="likedByUser ? 'red' : ''"
+          >fa-heart</v-icon>
         </v-btn>
-        <span class="subheading mr-2">256</span>
+        <span class="subheading mr-2" v-if="likeCount > 0">{{ likeCount }}</span>
         <v-btn icon>
           <v-icon>fa-comment-alt</v-icon>
         </v-btn>
@@ -75,7 +80,9 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import helpers from '@/helpers/helpers'
+import { find } from 'lodash'
 
 export default {
   props: {
@@ -85,6 +92,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      authenticatedUser: 'auth/authenticatedUser'
+    }),
     fullName () {
       return this.post.author.data.profile.data.fullName
     },
@@ -100,9 +110,30 @@ export default {
     },
     postContent () {
       return this.post.content
+    },
+    likeCount () {
+      return this.post.likes.data.length
+    },
+    likedByUser () {
+      const likeArray = this.post.likes.data
+      const authenticatedUserId = this.authenticatedUser.id
+
+      const matchedElement = find(likeArray, function (o) {
+        return o.user.data.id === authenticatedUserId
+      })
+
+      if (matchedElement !== undefined) {
+        return true
+      }
+
+      return false
     }
   },
   methods: {
+    ...mapActions({
+      likePost: 'feed/posts/likePost',
+      unlikePost: 'feed/posts/unlikePost'
+    }),
     gotoUserPage () {
       this.$router.push({
         name: 'user-timeline-home',
@@ -110,6 +141,13 @@ export default {
           username: this.post.author.data.username
         }
       })
+    },
+    likeIt () {
+      if (this.likedByUser) {
+        this.unlikePost({ postId: this.post.id })
+      } else {
+        this.likePost({ postId: this.post.id })
+      }
     }
   }
 }

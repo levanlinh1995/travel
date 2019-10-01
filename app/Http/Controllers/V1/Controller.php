@@ -8,7 +8,7 @@ use League\Fractal\Manager;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use League\Fractal\Serializer\JsonApiSerializer;
+use League\Fractal\Serializer\DataArraySerializer;
 
 class Controller extends BaseController
 {
@@ -16,7 +16,7 @@ class Controller extends BaseController
     {
         $request = app(Request::class);
         $manager = new Manager();
-        $manager->setSerializer(new JsonApiSerializer());
+        $manager->setSerializer(new DataArraySerializer()); 
 
         if (!empty($request->query('include'))) {
             $manager->parseIncludes($request->query('include'));
