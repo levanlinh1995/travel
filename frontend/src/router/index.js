@@ -4,7 +4,7 @@ import store from '../store/index'
 
 // lazy load component
 const LoginPage = () => import('../components/auth/LoginPage')
-const HomePage = () => import('../components/modules/feeds/FeedHome')
+const HomePage = () => import('../components/views/home/Home')
 const Feeds = () => import('../components/modules/feeds/FeedHome')
 const UserHome = () => import('../components/modules/users/UserHome')
 const UserTimelineHome = () => import('../components/modules/users/timeline/TimelineHome')
