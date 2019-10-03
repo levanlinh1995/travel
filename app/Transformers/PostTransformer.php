@@ -11,7 +11,8 @@ class PostTransformer extends Transformer
 
     protected $defaultIncludes = [
         'author',
-        'likes'
+        'likes',
+        'comments'
     ];
 
     public function transform($post)
@@ -37,5 +38,12 @@ class PostTransformer extends Transformer
         $likes = $post->likes()->with('user')->get();
 
         return $this->collection($likes, new LikeTransformer, 'like');
+    }
+
+    public function includeComments(Post $post)
+    {
+        $comments = $post->comments()->with('user')->get();
+
+        return $this->collection($comments, new CommentTransformer, 'comment');
     }
 }

@@ -73,4 +73,13 @@ Route::group([
         Route::post('post/{id}/like', 'LikeController@likePost');
         Route::post('post/{id}/unlike', 'LikeController@unlikePost');
     });
+
+    /******** LIKE *****************************************************/
+    Route::group([
+        'namespace' => 'Comment',
+        'middleware' => ['auth']
+    ], function ($router) {
+        Route::post('post/{id}/add-comment', 'CommentController@addPostComment');
+        Route::post('post/{id}/delete-comment', 'CommentController@deletePostComment');
+    });
 });
