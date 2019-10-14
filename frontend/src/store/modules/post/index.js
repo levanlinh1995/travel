@@ -32,7 +32,6 @@ const mutations = {
     state.posts = []
   },
   likePost (state, payload) {
-    const likeItem = payload.likeItem
     const postId = payload.postId
 
     const index = findIndex(state.posts, function (o) {
@@ -40,29 +39,53 @@ const mutations = {
     })
 
     if (index !== -1) {
-      state.posts[index].likes.data.push(likeItem)
+      state.posts[index].likedByUser = true
+      state.posts[index].likeCount++
     }
   },
   unlikePost (state, payload) {
     const postId = payload.postId
-    const authenticatedUserId = payload.authenticatedUserId
-
     const postIndex = findIndex(state.posts, function (o) {
       return o.id === postId
     })
 
-    const likeIndex = findIndex(state.posts[postIndex].likes.data, function (o) {
-      return o.user.data.id === authenticatedUserId
+    state.posts[postIndex].likedByUser = false
+    state.posts[postIndex].likeCount--
+  },
+  addNewComment (state, payload) {
+    const postId = payload.postId
+    const comment = payload.comment
+
+    const index = findIndex(state.posts, function (o) {
+      return o.id === postId
     })
 
-    state.posts[postIndex].likes.data.splice(likeIndex, 1)
+    if (index !== -1) {
+      state.posts[index].commentCount++
+      state.posts[index].comments.data.unshift(comment)
+    }
   }
 }
 
 const actions = {
-  getPostList ({ commit }, payload) {
+  getFeedPostList ({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('/user/posts', {
+      axios.get('feed/posts', {
+        params: {
+          page: payload.page
+        }
+      })
+        .then(res => {
+          const postList = res.data.data
+          commit('addOneMorePost', postList)
+          resolve(res)
+        })
+        .catch(error => reject(error))
+    })
+  },
+  getUserPostList ({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('user/posts', {
         params: {
           page: payload.page
         }
@@ -81,7 +104,6 @@ const actions = {
         .then(res => {
           const post = res.data.data
           commit('addOneMorePostAtBegin', post)
-          commit('feed/posts/addOneMorePostAtBegin', post, { root: true })
           resolve(res)
         })
         .catch(error => reject(error))
@@ -116,6 +138,22 @@ const actions = {
   },
   clearPostList ({ commit }) {
     commit('clearPosts')
+  },
+  createNewComment ({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios.post(`/post/${payload.postId}/add-comment`, {
+        content: payload.content
+      })
+        .then(res => {
+          const comment = res.data.data
+          commit('addNewComment', {
+            postId: payload.postId,
+            comment
+          })
+          resolve(res)
+        })
+        .catch(error => reject(error))
+    })
   }
 }
 

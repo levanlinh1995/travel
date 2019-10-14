@@ -23,7 +23,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import InfiniteLoading from 'vue-infinite-loading'
-import PostList from './posts/PostList'
+import PostList from '../../posts/PostList'
 import CreateNewPost from '../../posts/CreateNewPost'
 import LeftSideBar from './LeftSideBar'
 
@@ -44,16 +44,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      posts: 'user/posts/postList'
+      posts: 'post/postList'
     })
   },
   methods: {
     ...mapActions({
-      getPostList: 'user/posts/getPostList',
-      clearPostList: 'user/posts/clearPostList'
+      getUserPostList: 'post/getUserPostList',
+      clearPostList: 'post/clearPostList'
     }),
     infiniteHandler ($state) {
-      this.getPostList({ page: this.page })
+      this.getUserPostList({ page: this.page })
         .then(res => {
           const postList = res.data.data
           if (postList.length > 0) {

@@ -21,7 +21,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import InfiniteLoading from 'vue-infinite-loading'
 import CreateNewPost from '../posts/CreateNewPost'
-import PostList from './posts/PostList'
+import PostList from '../posts/PostList'
 
 export default {
   components: {
@@ -39,16 +39,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      posts: 'feed/posts/postList'
+      posts: 'post/postList'
     })
   },
   methods: {
     ...mapActions({
-      getPostList: 'feed/posts/getPostList',
-      clearPostList: 'feed/posts/clearPostList'
+      getFeedPostList: 'post/getFeedPostList',
+      clearPostList: 'post/clearPostList'
     }),
     infiniteHandler ($state) {
-      this.getPostList({ page: this.page })
+      this.getFeedPostList({ page: this.page })
         .then(res => {
           const postList = res.data.data
           if (postList.length > 0) {

@@ -1,9 +1,13 @@
 <template>
   <div>
-    <v-card>
+    <v-card
+      class="mx-auto"
+    >
       <v-list-item>
         <v-list-item-avatar
           color="white"
+          style="cursor: pointer"
+          @click="gotoUserPage"
         >
           <v-avatar>
             <img v-if="AvatarUrl" :src="AvatarUrl">
@@ -11,7 +15,11 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="headline">
+          <v-list-item-title
+            @click="gotoUserPage"
+            class="headline blue--text text--darken-4 font-weight-regular"
+            style="cursor: pointer"
+          >
             {{ fullName }}
           </v-list-item-title>
           <v-tooltip bottom left>
@@ -47,25 +55,27 @@
         </v-menu>
       </v-list-item>
 
-      <v-card-text>
+      <v-card-text class="body-2">
         {{ postContent }}
       </v-card-text>
 
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          :color="likedByUser ? 'red' : ''"
           icon
           @click="likeIt"
         >
-          <v-icon>fa-heart</v-icon>
+          <v-icon
+            :color="likedByUser ? 'red' : ''"
+          >fa-heart</v-icon>
         </v-btn>
         <span class="subheading mr-2" v-if="likeCount > 0">{{ likeCount }}</span>
         <v-btn icon>
           <v-icon>fa-comment-alt</v-icon>
         </v-btn>
-        <span class="subheading mr-2">15</span>
+        <span class="subheading mr-2" v-if="commentCount > 0">{{ commentCount }}</span>
       </v-card-actions>
+      <post-comment :post="post" :comments="comments"></post-comment>
     </v-card>
   </div>
 </template>
@@ -73,15 +83,16 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import helpers from '@/helpers/helpers'
-import { find } from 'lodash'
+import PostComment from './comments/PostComment'
 
 export default {
+  components: {
+    PostComment
+  },
   props: {
     post: {
       type: Object,
-      default () {
-        return {}
-      }
+      required: true
     }
   },
   computed: {
@@ -105,28 +116,31 @@ export default {
       return this.post.content
     },
     likeCount () {
-      return this.post.likes.data.length
+      return this.post.likeCount
+    },
+    commentCount () {
+      return this.post.commentCount
+    },
+    comments () {
+      return this.post.comments.data
     },
     likedByUser () {
-      const likeArray = this.post.likes.data
-      const authenticatedUserId = this.authenticatedUser.id
-
-      const matchedElement = find(likeArray, function (o) {
-        return o.user.data.id === authenticatedUserId
-      })
-
-      if (matchedElement !== undefined) {
-        return true
-      }
-
-      return false
+      return this.post.likedByUser
     }
   },
   methods: {
     ...mapActions({
-      likePost: 'user/posts/likePost',
-      unlikePost: 'user/posts/unlikePost'
+      likePost: 'post/likePost',
+      unlikePost: 'post/unlikePost'
     }),
+    gotoUserPage () {
+      this.$router.push({
+        name: 'user-timeline-home',
+        params: {
+          username: this.post.author.data.username
+        }
+      })
+    },
     likeIt () {
       if (this.likedByUser) {
         this.unlikePost({ postId: this.post.id })

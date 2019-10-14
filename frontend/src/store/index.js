@@ -7,6 +7,7 @@ import authModule from './modules/auth/index'
 import userModule from './modules/user/index'
 import feedModule from './modules/feed/index'
 import storyModule from './modules/story/index'
+import postModule from './modules/post/index'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     auth: authModule,
     feed: feedModule,
     user: userModule,
-    story: storyModule
+    story: storyModule,
+    post: postModule
   }
 })

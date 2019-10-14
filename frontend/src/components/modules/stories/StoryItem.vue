@@ -11,7 +11,12 @@
       >
       </v-img>
 
-      <v-card-title>{{ storyTitle }}</v-card-title>
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title class="headline">{{ storyTitle }}</v-list-item-title>
+          <v-list-item-subtitle>Mon, 12:30 PM, Mostly sunny</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
       <v-card-text>
         <span class="text--primary">

@@ -4,9 +4,7 @@
       <div class="title">Create post</div>
     </v-card-title>
     <v-divider></v-divider>
-    <v-row
-      class="pa-4 grey--text"
-    >
+    <div class="d-flex flex-row pa-2 grey--text">
       <div>
         <v-avatar>
           <img v-if="AvatarUrl" :src="AvatarUrl">
@@ -19,11 +17,11 @@
             full-width
             rows="2"
             v-model="formData.content"
-            label="Write something ..."
+            label="Write something..."
           ></v-textarea>
         </v-form>
       </div>
-    </v-row>
+    </div>
     <v-divider class="mx-4"></v-divider>
     <v-card-text>
       <v-chip
@@ -78,7 +76,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      createNewPost: 'user/posts/createNewPost'
+      createNewPost: 'post/createNewPost'
     }),
     submitForm () {
       this.createNewPost(this.formData)

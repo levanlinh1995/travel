@@ -1,6 +1,4 @@
 // import axios from '../../../axios/index'
-import PostModule from './post'
-
 const state = {
 }
 
@@ -19,8 +17,5 @@ export default {
   state,
   getters,
   mutations,
-  actions,
-  modules: {
-    posts: PostModule
-  }
+  actions
 }

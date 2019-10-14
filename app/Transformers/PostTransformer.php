@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use App\Transformers\Transformer;
 use App\Model\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostTransformer extends Transformer
 {
@@ -21,6 +22,9 @@ class PostTransformer extends Transformer
             'id' => $post->id,
             'status' => $post->status,
             'content' => $post->content,
+            'likedByUser' => $post->likes()->where('user_id', Auth::id())->first() ? true : false,
+            'likeCount' => $post->likes->count(),
+            'commentCount' => $post->comments->count(),
             'createdAt' => $post->created_at->toDateTimeString(),
             'updatedAt' => $post->updated_at->toDateTimeString()
         ];
