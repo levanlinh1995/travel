@@ -10,12 +10,10 @@
         <div class="grey--text text--darken-2 body-2" style="white-space: pre;">{{ commentContent }}</div>
         <v-list-item-subtitle>
           <v-btn
-            icon
+            text
             small
           >
-            <v-icon
-              small
-            >fa-thumbs-up</v-icon>
+            Like
           </v-btn>
           <v-btn
             text
